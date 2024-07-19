@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('location_id')->constrained()->onDelete('cascade');
             $table->integer('unique_number')->unique();
-            $table->string('type');
+            $table->enum('type', ['pos', 'kiosk', 'digital signage']);
             $table->string('image');
             $table->date('date_created');
             $table->enum('status', ['active', 'inactive']);
