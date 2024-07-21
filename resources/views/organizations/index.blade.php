@@ -5,28 +5,33 @@
     <h2>Organizations</h2>
     <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#organizationModal">Add Organization</button>
     <div id="organization-list" class="mb-3"></div>
-    
+
     <!-- Modal for Adding Organization -->
     <div class="modal fade" id="organizationModal" tabindex="-1" role="dialog" aria-labelledby="organizationModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="organizationModalLabel">Add Organization</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="organization-form" onsubmit="addOrganization(event)">
+                <form id="addOrganizationForm" onsubmit="addOrganization(event)">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="organizationModalLabel">Add Organization</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
                         <div class="form-group">
-                            <input type="text" id="organization-unique_code" class="form-control" placeholder="Unique Code" required>
+                            <label for="organization-unique_code">Unique Code</label>
+                            <input type="text" class="form-control" id="organization-unique_code" required>
                         </div>
                         <div class="form-group">
-                            <input type="text" id="organization-name" class="form-control" placeholder="Name" required>
+                            <label for="organization-name">Name</label>
+                            <input type="text" class="form-control" id="organization-name" required>
                         </div>
-                        <button type="submit" class="btn btn-success">Save</button>
-                    </form>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Add Organization</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -41,10 +46,9 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body" id="messageContent">
-                </div>
+                <div class="modal-body" id="messageContent"></div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -101,7 +105,7 @@
                     <div class="card-body">
                         <h5 class="card-title">${org.name}</h5>
                         <p class="card-text">Code: ${org.unique_code}</p>
-                        <button class="btn btn-secondary" onclick="loadLocations(${org.id})">View Locations</button>
+                        <a href="{{ url('/organizations/${org.id}/locations') }}" class="btn btn-secondary">View Locations</a>
                     </div>
                 `;
                 list.appendChild(div);
