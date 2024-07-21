@@ -12,3 +12,8 @@ Route::get('/user', function (Request $request) {
 
 Route::apiResource('organizations', OrganizationController::class);
 Route::get('organizations/{id}/locations', [OrganizationController::class, 'getLocations']);
+
+Route::apiResource('locations', LocationController::class);
+Route::apiResource('devices', DeviceController::class);
+Route::get('locations/{id}/devices', [LocationController::class, 'getDevices']);
+Route::delete('locations/{id}/devices/{deviceId}', [LocationController::class, 'removeDevice']);
