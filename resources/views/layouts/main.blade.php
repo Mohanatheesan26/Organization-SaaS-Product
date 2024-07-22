@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SaaS Product Management</title>
+    <title>Product Management</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .hidden { 
@@ -39,7 +39,7 @@
 </head>
 <body>
     <header class="bg-primary text-white text-center py-3">
-        <h1>SaaS Product Management</h1>
+        <h1>Product Management</h1>
     </header>
     <main class="container mt-5">
         @yield('content')

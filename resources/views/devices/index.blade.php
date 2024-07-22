@@ -3,7 +3,10 @@
 @section('content')
 <section id="devices">
     <h2>Devices</h2>
-    <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#deviceModal">Add Device</button>
+    <div class="d-flex justify-content-between mb-3">
+        <button class="btn btn-primary" data-toggle="modal" data-target="#deviceModal">Add Device</button>
+        <button class="btn btn-secondary" onclick="window.location.href='{{ url('/organizations') }}'">Back</button>
+    </div>
     <div id="device-list" class="mb-3"></div>
 
     <!-- Modal for Adding Device -->

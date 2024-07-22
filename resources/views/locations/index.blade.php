@@ -3,7 +3,10 @@
 @section('content')
 <section id="locations">
     <h2>Locations</h2>
-    <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#locationModal">Add Location</button>
+    <div class="d-flex justify-content-between mb-3">
+        <button class="btn btn-primary" data-toggle="modal" data-target="#locationModal">Add Location</button>
+        <button class="btn btn-secondary" onclick="window.location.href='{{ url('/organizations') }}'">Back</button>
+    </div>
     <div id="location-list" class="mb-3"></div>
 
     <!-- Modal for Adding Location -->
