@@ -116,7 +116,7 @@
             list.innerHTML = '';
             data.forEach(location => {
                 const div = document.createElement('div');
-                div.classList.add('card', 'mb-3');
+                div.classList.add('card', 'mb-3','shadow-sm', 'rounded');
                 div.innerHTML = `
                     <div class="card-body">
                         <h5 class="card-title">${location.name}</h5>
@@ -140,10 +140,3 @@
 </script>
 @endpush
 
-<style>
-    .modal-dialog {
-        display: flex;
-        align-items: center;
-        min-height: calc(100% - 1rem);
-    }
-</style>

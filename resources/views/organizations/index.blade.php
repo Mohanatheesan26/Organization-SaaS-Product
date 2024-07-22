@@ -105,7 +105,7 @@
             list.innerHTML = '';
             data.forEach(org => {
                 const div = document.createElement('div');
-                div.classList.add('card', 'mb-3');
+                div.classList.add('card', 'mb-3', 'shadow-sm', 'rounded');
                 div.innerHTML = `
                     <div class="card-body">
                         <h5 class="card-title">${org.name}</h5>
@@ -127,11 +127,3 @@
     document.addEventListener('DOMContentLoaded', loadOrganizations);
 </script>
 @endpush
-
-<style>
-    .modal-dialog {
-        display: flex;
-        align-items: center;
-        min-height: calc(100% - 1rem);
-    }
-</style>

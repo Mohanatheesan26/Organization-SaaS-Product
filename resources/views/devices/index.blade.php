@@ -128,15 +128,23 @@
             list.innerHTML = '';
             data.forEach(device => {
                 const div = document.createElement('div');
-                div.classList.add('card', 'mb-3');
+                div.classList.add('card', 'mb-3', 'shadow-sm', 'rounded');
                 div.innerHTML = `
-                    <div class="card-body">
-                        <p class="card-text">Unique Number: ${device.unique_number}</p>
-                        <p class="card-text">Type: ${device.type}</p>
-                        <p class="card-text">Date Created: ${device.date_created}</p>
-                        <p class="card-text">Status: ${device.status}</p>
-                        <img src="/storage/${device.image}" alt="Device Image" class="img-fluid mb-2">
-                        <button class="btn btn-danger d-block" onclick="removeDevice(${locationId}, ${device.id})">Remove Device</button>
+                    <div class="row no-gutters">
+                        <div class="col-md-4 d-flex align-items-center">
+                            <div class="text-center">
+                                <img src="/storage/${device.image}" alt="Device Image" class="img-fluid">
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <p class="card-text">Unique Number: ${device.unique_number}</p>
+                                <p class="card-text">Type: ${device.type}</p>
+                                <p class="card-text">Date Created: ${device.date_created}</p>
+                                <p class="card-text">Status: ${device.status}</p>
+                                <button class="btn btn-danger d-block mt-2" onclick="removeDevice(${locationId}, ${device.id})">Remove Device</button>
+                            </div>
+                        </div>
                     </div>
                 `;
                 list.appendChild(div);
@@ -172,10 +180,3 @@
 </script>
 @endpush
 
-<style>
-    .modal-dialog {
-        display: flex;
-        align-items: center;
-        min-height: calc(100% - 1rem);
-    }
-</style>
