@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Location;
 use App\Models\Organization;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class LocationController extends Controller
 {
@@ -15,20 +16,25 @@ class LocationController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'organization_id' => 'required|exists:organizations,id',
-            'serial_number' => 'required|unique:locations',
-            'name' => 'required',
-            'ipv4_address' => 'required|ipv4'
-        ]);
+        try {
+            $validated = $request->validate([
+                'organization_id' => 'required|exists:organizations,id',
+                'serial_number' => 'required|integer|unique:locations',
+                'name' => 'required',
+                'ipv4_address' => 'required|ipv4'
+            ]);
 
-        $organization = Organization::find($validated['organization_id']);
-        if ($organization->locations()->count() >= 5) {
-            return response()->json(['error' => 'An organization cannot have more than 5 locations'], 400);
+            $organization = Organization::find($validated['organization_id']);
+            if ($organization->locations()->count() >= 5) {
+                return response()->json(['error' => 'An organization cannot have more than 5 locations'], 400);
+            }
+
+            $location = Location::create($validated);
+            return response()->json($location, 201);
+
+        } catch (ValidationException $e) {
+            return response()->json(['error' => $e->errors()], 422);
         }
-
-        $location = Location::create($validated);
-        return response()->json($location, 201);
     }
 
     public function show($id)
@@ -41,7 +47,7 @@ class LocationController extends Controller
     {
         $location = Location::findOrFail($id);
         $validated = $request->validate([
-            'serial_number' => 'required|unique:locations,serial_number,' . $id,
+            'serial_number' => 'required|integer|unique:locations,serial_number,' . $id,
             'name' => 'required',
             'ipv4_address' => 'required|ipv4'
         ]);

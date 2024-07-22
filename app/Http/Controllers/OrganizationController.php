@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Organization;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class OrganizationController extends Controller
 {
@@ -14,14 +15,19 @@ class OrganizationController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'unique_code' => 'required|unique:organizations',
-            'name' => 'required'
-        ]);
+        try {
+            $validated = $request->validate([
+                'unique_code' => 'required|integer|unique:organizations',
+                'name' => 'required'
+            ]);
 
-        $organization = Organization::create($validated);
+            $organization = Organization::create($validated);
 
-        return response()->json($organization, 201);
+            return response()->json($organization, 201);
+
+        } catch (ValidationException $e) {
+            return response()->json(['error' => $e->errors()], 422);
+        }
     }
 
     public function show($id)
@@ -34,7 +40,7 @@ class OrganizationController extends Controller
     {
         $organization = Organization::findOrFail($id);
         $validated = $request->validate([
-            'unique_code' => 'required|unique:organizations,unique_code,' . $id,
+            'unique_code' => 'required|integer|unique:organizations,unique_code,' . $id,
             'name' => 'required'
         ]);
 

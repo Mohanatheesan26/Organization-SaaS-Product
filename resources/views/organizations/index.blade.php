@@ -82,7 +82,12 @@
             loadOrganizations();
         })
         .catch(error => {
-            showMessage('Error adding organization: ' + error.message, 'danger');
+            if (error.error) {
+                const errorMessages = Object.values(error.error).flat().join(', ');
+                showMessage(`${errorMessages}`, 'danger');
+            } else {
+                showMessage('An unknown error occurred', 'danger');
+            }
             console.error('Error:', error);
         });
     }

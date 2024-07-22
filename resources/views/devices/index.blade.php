@@ -102,7 +102,16 @@
             loadDevices();
         })
         .catch(error => {
-            showMessage('Error adding device: ' + error.message, 'danger');
+            if (error.error) {
+                if (typeof error.error === 'object') {
+                    const errorMessages = Object.values(error.error).flat().join(', ');
+                    showMessage(`${errorMessages}`, 'danger');
+                } else {
+                    showMessage(`${error.error}`, 'danger');
+                }
+            } else {
+                showMessage('An unknown error occurred', 'danger');
+            }
             console.error('Error:', error);
         });
     }
