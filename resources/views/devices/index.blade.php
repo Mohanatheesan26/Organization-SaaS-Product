@@ -17,7 +17,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="device-form" onsubmit="addDevice(event)">
+                    <form id="device-form" onsubmit="addDevice(event)" enctype="multipart/form-data">
                         <div class="form-group">
                             <input type="hidden" id="location-id" value="{{ $location_id }}">
                             <input type="text" id="device-unique_number" class="form-control" placeholder="Unique Number" required>
@@ -31,7 +31,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <input type="url" id="device-image" class="form-control" placeholder="Image URL" required>
+                            <input type="file" id="device-image" class="form-control" placeholder="Image" accept="image/*" required>
                         </div>
                         <div class="form-group">
                             <select id="device-status" class="form-control" required>
@@ -40,7 +40,7 @@
                             </select>
                         </div>
                         <button type="submit" class="btn btn-success">Save</button>
-                    </form>
+                    </form>                    
                 </div>
             </div>
         </div>
@@ -75,19 +75,19 @@
         event.preventDefault();
         const uniqueNumber = document.getElementById('device-unique_number').value;
         const type = document.getElementById('device-type').value;
-        const image = document.getElementById('device-image').value;
+        const image = document.getElementById('device-image').files[0];
         const status = document.getElementById('device-status').value;
+
+        const formData = new FormData();
+        formData.append('location_id', locationId);
+        formData.append('unique_number', uniqueNumber);
+        formData.append('type', type);
+        formData.append('image', image);
+        formData.append('status', status);
 
         fetch(`${apiUrl}/devices`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                location_id: locationId,
-                unique_number: uniqueNumber,
-                type: type,
-                image: image,
-                status: status
-            })
+            body: formData
         })
         .then(response => {
             if (!response.ok) {
@@ -135,8 +135,8 @@
                         <p class="card-text">Type: ${device.type}</p>
                         <p class="card-text">Date Created: ${device.date_created}</p>
                         <p class="card-text">Status: ${device.status}</p>
-                        <img src="${device.image}" alt="Device Image" class="img-fluid">
-                        <button class="btn btn-danger mt-2" onclick="removeDevice(${locationId}, ${device.id})">Remove Device</button>
+                        <img src="/storage/${device.image}" alt="Device Image" class="img-fluid mb-2">
+                        <button class="btn btn-danger d-block" onclick="removeDevice(${locationId}, ${device.id})">Remove Device</button>
                     </div>
                 `;
                 list.appendChild(div);

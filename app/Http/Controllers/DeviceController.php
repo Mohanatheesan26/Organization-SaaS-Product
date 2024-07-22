@@ -21,9 +21,14 @@ class DeviceController extends Controller
                 'location_id' => 'required|exists:locations,id',
                 'unique_number' => 'required|integer|unique:devices',
                 'type' => 'required|in:pos,kiosk,digital signage',
-                'image' => 'required|url',
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'status' => 'required|in:active,inactive'
             ]);
+
+            if ($request->hasFile('image')) {
+                $imagePath = $request->file('image')->store('device_images', 'public');
+                $validated['image'] = $imagePath;
+            }
 
             $location = Location::find($validated['location_id']);
             if ($location->devices()->count() >= 10) {
@@ -33,7 +38,7 @@ class DeviceController extends Controller
             $validated['date_created'] = now();
 
             $device = Device::create($validated);
-            
+
             return response()->json($device, 201);
 
         } catch (ValidationException $e) {
@@ -53,9 +58,14 @@ class DeviceController extends Controller
         $validated = $request->validate([
             'unique_number' => 'required|integer|unique:devices,unique_number,' . $id,
             'type' => 'required|in:pos,kiosk,digital signage',
-            'image' => 'required|url',
+            'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
             'status' => 'required|in:active,inactive'
         ]);
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('device_images', 'public');
+            $validated['image'] = $imagePath;
+        }
 
         $device->update($validated);
 
@@ -66,7 +76,7 @@ class DeviceController extends Controller
     {
         $device = Device::findOrFail($id);
         $device->delete();
-        
+
         return response()->json(['message' => 'Device removed successfully'], 204);
     }
 }
