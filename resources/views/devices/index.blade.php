@@ -56,8 +56,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body" id="messageContent">
-                </div>
+                <div class="modal-body" id="messageContent"></div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
                 </div>
@@ -137,6 +136,7 @@
                         <p class="card-text">Date Created: ${device.date_created}</p>
                         <p class="card-text">Status: ${device.status}</p>
                         <img src="${device.image}" alt="Device Image" class="img-fluid">
+                        <button class="btn btn-danger mt-2" onclick="removeDevice(${locationId}, ${device.id})">Remove Device</button>
                     </div>
                 `;
                 list.appendChild(div);
@@ -145,7 +145,7 @@
     }
 
     function removeDevice(locationId, deviceId) {
-        fetch(`${apiUrl}/locations/${locationId}/devices/${deviceId}`, {
+        fetch(`${apiUrl}/devices/${deviceId}`, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' }
         })

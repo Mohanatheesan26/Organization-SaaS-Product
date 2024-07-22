@@ -16,4 +16,3 @@ Route::get('organizations/{id}/locations', [OrganizationController::class, 'getL
 Route::apiResource('locations', LocationController::class);
 Route::apiResource('devices', DeviceController::class);
 Route::get('locations/{id}/devices', [LocationController::class, 'getDevices']);
-Route::delete('locations/{id}/devices/{deviceId}', [LocationController::class, 'removeDevice']);

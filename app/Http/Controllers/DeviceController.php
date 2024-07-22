@@ -64,7 +64,9 @@ class DeviceController extends Controller
 
     public function destroy($id)
     {
-        Device::destroy($id);
-        return response()->json(null, 204);
+        $device = Device::findOrFail($id);
+        $device->delete();
+        
+        return response()->json(['message' => 'Device removed successfully'], 204);
     }
 }

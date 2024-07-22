@@ -68,11 +68,4 @@ class LocationController extends Controller
         $location = Location::with('devices')->findOrFail($id);
         return response()->json($location->devices);
     }
-
-    public function removeDevice($id, $deviceId)
-    {
-        $location = Location::findOrFail($id);
-        $location->devices()->findOrFail($deviceId)->delete();
-        return response()->json(null, 204);
-    }
 }
